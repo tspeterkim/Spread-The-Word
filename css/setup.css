@@ -1,0 +1,81 @@
+html{
+	background-color:#e9eaed;
+	font-family: 'Open Sans', sans-serif;
+}
+
+a{color:#07c; text-decoration:none;}      /* unvisited link */
+a:visited {color:#07c;}  /* visited link */
+a:hover {color:#07c; text-decoration:underline;}  /* mouse over link */
+a:active {color:#07c;}  /* selected link */
+
+#title_icon{
+	height: 70px;
+	vertical-align: middle;
+}
+
+#welcome_message{
+	font-size:60px;
+	font-family: 'Lobster', cursive;
+	margin-bottom:20px;
+	background: #fff;
+	color:#07c;
+	border: 1px solid;
+	border-color: #e5e6e9 #dfe0e4 #d0d1d5;
+	padding:12px;
+	text-align:center;
+}
+
+b{
+	color:#07c;
+}
+
+#setup_step2{
+	display:none;
+}
+
+#loli_icon{
+	height:25px;
+	vertical-align:middle;
+}
+
+#celebrate{
+	font-family: 'Lobster', cursive;
+}
+
+.setup_checks{
+	display:none;
+	height:50px;
+	vertical-align:bottom;
+}
+
+.setup_contents{
+	clear:right;
+}
+
+.setup_steps{
+	font-size:25px;
+	background: #fff;
+	border: 1px solid;
+	border-color: #e5e6e9 #dfe0e4 #d0d1d5;
+	padding:12px;
+	margin-bottom:20px;
+}
+
+.steps_header
+{
+	font-size:40px;
+	margin-bottom:8px;
+}
+
+#container{
+	margin-top:30px;
+	width:500px;
+	margin-left:auto;
+	margin-right:auto;
+	padding:12px;
+
+}
+
+#setup_button{
+	font-size:20px;
+}
