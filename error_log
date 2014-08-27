@@ -1,0 +1,9 @@
+[05-Aug-2014 08:56:47 UTC] PHP Fatal error:  Call to a member function result_arrayy() on a non-object in /home/droidarmy95/public_html/application/controllers/feed.php on line 189
+[05-Aug-2014 08:56:59 UTC] PHP Fatal error:  Call to undefined method CI_DB_mysql_result::result_arrayy() in /home/droidarmy95/public_html/application/controllers/feed.php on line 189
+[05-Aug-2014 08:57:42 UTC] PHP Parse error:  syntax error, unexpected '}', expecting ',' or ';' in /home/droidarmy95/public_html/application/controllers/feed.php on line 193
+[06-Aug-2014 04:18:24 UTC] PHP Fatal error:  Cannot use object of type stdClass as array in /home/droidarmy95/public_html/application/controllers/feed.php on line 197
+[06-Aug-2014 05:22:37 UTC] PHP Parse error:  syntax error, unexpected 'echo' (T_ECHO), expecting ',' or ';' in /home/droidarmy95/public_html/application/controllers/feed.php on line 228
+[06-Aug-2014 07:54:25 UTC] PHP Fatal error:  Call to undefined function humanTiming() in /home/droidarmy95/public_html/application/controllers/feed.php on line 239
+[06-Aug-2014 08:22:42 UTC] PHP Fatal error:  Call to undefined method CI_Loader::humanTiming() in /home/droidarmy95/public_html/application/views/feed.php on line 124
+[06-Aug-2014 08:57:02 UTC] PHP Fatal error:  Cannot redeclare ago() (previously declared in /home/droidarmy95/public_html/application/views/feed.php:125) in /home/droidarmy95/public_html/application/views/feed.php on line 125
+[14-Aug-2014 05:40:00 UTC] PHP Fatal error:  Call to undefined method Intro::get_client_ip() in /home/droidarmy95/public_html/application/controllers/intro.php on line 5

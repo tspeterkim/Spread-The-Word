@@ -11,6 +11,37 @@
 	padding: 8px 10px;
 }
 
+.no_comments{
+    color:black;
+    margin-top:15px;
+}
+
+.comment_areas{
+    margin-top:15px;
+}
+
+.comment_inputs{
+    resize: none;
+	width: 484px;
+	font-family: inherit;
+	font-size: inherit;
+	padding:12px;
+}
+
+.comment_items{
+    padding:8px;
+}
+
+.comment_messages{
+    font-size:13px;
+}
+
+.comment_times{
+    margin-right:20px;
+    color:#9197a3;
+    font-size:11px;
+}
+
 html
 {
 	background-color:#e9eaed;
@@ -60,8 +91,10 @@ button{
 	text-align:center;
 	position:relative;
 	bottom:25px;
+	left:100px;
+	width:300px;
 	margin:0;
-	z-index:-1;
+	/*z-index:-1;*/
 }
 
 #help_icon{
@@ -116,7 +149,7 @@ button{
 
 #feed_input_textarea{
 	resize: none;
-	width: 510px;
+	width: 484px;
 	font-family: inherit;
 	font-size: inherit;
 	padding:12px;
@@ -153,6 +186,17 @@ hr {
 	top:10px;
 }
 
+.my_lists > .feed_items:hover{
+    cursor:pointer;
+    background-color:#E0FFFF;
+}
+
+#feed_main_div > .feed_items:hover{
+    cursor:pointer;
+    background-color:#E0FFFF;
+}
+
+
 .feed_items{
 	background: #fff;
 	border: 1px solid;
@@ -160,6 +204,30 @@ hr {
 	width: 484px;
 	margin-bottom: 7px;
 	padding:12px;
+    transition: background-color 0.5s ease;
+    color:black;
+}
+
+#feed_main_div > a{
+    color:black;
+    text-decoration:none;
+    
+}
+
+#feed_main_div > a:hover{
+    color:black;
+    text-decoration:none;
+    
+}
+
+#feed_main_div > a:active{
+    color:black;
+    text-decoration:none;
+    
+}
+.rank_dev_panel
+{
+    display:none;
 }
 
 .feed_item_messages{
@@ -170,6 +238,20 @@ hr {
 	color:#07c;
 	font-size:13px;
 }
+
+.location_spans{
+    margin-right:20px;
+    color:#9197a3;
+    font-size:11px;
+}
+
+.time_spans{
+    
+    margin-right:20px;
+    color:#9197a3;
+    font-size:11px;
+}
+
 .likecount_spans{
 	float:right;
 	font-size:13px;

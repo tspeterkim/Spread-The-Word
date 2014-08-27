@@ -1,23 +1,117 @@
 $('#feed_input_textarea').autosize();
 
+getLocation();
+//Automatic Refreshses?
+/*
+window.setInterval(function(){
+  //refresh_feed();
+}, 5000);*/
+
+$(document).on('click', '.feed_items', function (e) {
+    if(!$(e.target).hasClass('like_buttons') )
+   {
+       var feedID = parseInt($(this).attr('id').substr(10)); 
+       //alert(feedID);
+       $(this).children(".comment_view_links")[0].click();
+       
+   }else{
+       
+       var itemname = $(this).attr('id');
+    	var id = itemname.substr(10);
+    	alert("Spreading... "+id);
+    	
+    	$.ajax({
+    		url: '/index.php/feed/spread_feed/'+id,
+    		context: this,
+    		success: function(data){
+    			alert("Successfully Spread!");
+    			$(this).children('.like_buttons').hide();
+    			$(this).append('<span class="afterlike_messages">The word has been spread</span>');
+    			
+    			var prev_likecount = $(this).children(".likecount_spans").children(".blueify").html();
+    			$(this).children(".likecount_spans").children(".blueify").html(parseInt(prev_likecount)+1);
+    			
+    			$('.my_lists').children('#feed_item_'+id).children(".likecount_spans").children(".blueify").html(parseInt(prev_likecount)+1);
+    			$('.my_lists').children('#feed_item_'+id).children(".like_buttons").hide();
+    			$('.my_lists').children('#feed_item_'+id).append('<span class="afterlike_messages">The word has been spread</span>');
+
+    			/*
+    			var prev_likecount = $(this).children('.like_buttons').siblings(".likecount_spans").children(".blueify").html();
+    			$(this).children('.like_buttons').siblings(".likecount_spans").children(".blueify").html(parseInt(prev_likecount)+1);
+    			$(this).append('<span class="afterlike_messages">The word has been spread</span>');
+    			
+    			var prev_spreadcount = parseInt($('#my_spreads_open').children('b').html().substr(1,2))+1;
+    			$('#my_spreads_open').children('b').html("("+prev_spreadcount+")");
+    			
+    			$('#feed_main_div').children('#feed_item_'+id).children(".likecount_spans").children(".blueify").html(parseInt(prev_likecount)+1);
+    			$('#feed_main_div').children('#feed_item_'+id).hide();
+    			$('#feed_main_div').children('#feed_item_'+id).append('<span class="afterlike_messages">The word has been spread</span>');
+    			
+    			$('.my_lists').children('#feed_item_'+id).children(".likecount_spans").children(".blueify").html(parseInt(prev_likecount)+1);
+    			$('.my_lists').children('#feed_item_'+id).hide();
+    			$('.my_lists').children('#feed_item_'+id).append('<span class="afterlike_messages">The word has been spread</span>');
+    			*/
+    		}
+    	});
+   }
+});
+
+$(".comment_view_links").fancybox({
+        'type' : 'ajax',
+        helpers : {
+            overlay : {
+                    css : {
+                        'background' : 'rgba(0, 0, 0, 0.7)'
+                    }
+            }
+        },
+        ajax: {
+        complete: function(jqXHR, textStatus) { //runs after fancybox successfully loaded everything
+                $('.comment_inputs').focus();
+            }
+        }
+});
+
+$(document).on('keypress','.comment_inputs',function(e){
+    if(e.which==13){
+        var mess = $(this).val();
+        //alert(mess);
+        var feedID = parseInt($(this).parent().siblings('.feed_items').attr('id').substr(10)); 
+        $.ajax({
+    		url: '/index.php/feed/add_comment/'+feedID,
+    		type: 'POST',
+    		context: this,
+    		data: 'message='+mess,
+    		success: function(data){
+    		    $(this).val('');
+    			$('.comment_mains').html(data);
+    		
+	    	}   
+	    });
+    }
+});
+
 $('#feed_submit_button').click(function(){
 	var message = $('#feed_input_textarea').val();
 	
 	if(!message.trim()){	//is empty or whitespace
-		var n = noty({text: 'You have to spread something. With words.',type:'information',timeout:2000,layout:'topRight'});
+		var n = noty({text: 'You have to spread something. With words.',type:'warning',timeout:2000,layout:'topRight'});
 	}else{
 		var latitude = $('#input_lat_hidden').val();
 		var longitude = $('#input_long_hidden').val();
+		var location = $('#location').html();
 		
 		$.ajax({
 			url: '/index.php/feed/add_feed/',
 			type: 'POST',
-			data: {latitude: latitude, longitude: longitude, message: message},
+			data: {latitude: latitude, longitude: longitude, message: message, location: location},
 			success: function(data){
 				//alert("Success!");
-				var n = noty({text: 'You spread a new word',type:'information',timeout:2000,layout:'topRight'});
+				var n = noty({text: 'You spread a new word',type:'success',timeout:2000,layout:'topRight'});
 				refresh_feed();
-				refresh_feed();
+				var prev_spreadcount = parseInt($('#my_feeds_open').children('b').html().substr(1,2))+1;
+			    $('#my_feeds_open').children('b').html("("+prev_spreadcount+")");
+				//refresh_feed();
 			}
 		});
 	}
@@ -25,7 +119,8 @@ $('#feed_submit_button').click(function(){
 	$('#feed_input_textarea').focus();
 });
 
-$('.tooltip').tooltipster({contentAsHTML:true,maxWidth:400,content: 'For every <b>50</b> likes you get on a word, your informant level goes up by <b>1</b>. The higer your informant level is, the more likely your words are gonna get heard by others.',theme:'tooltipster-light'});
+$('.tooltip').tooltipster({contentAsHTML:true,maxWidth:400,content: 'For every <b>10</b> likes you get on a word, your informant level goes up by <b>1</b>. The higher your informant level is, the more likely your words will be heard by others.',theme:'tooltipster-light'});
+
 
 $("#feed_input_textarea").focus(function(){
 	$("hr").css('margin-top','-16px');
@@ -67,7 +162,7 @@ $.fn.extend( {
 
 var elem = $("#char_counter");
 $('#feed_input_textarea').limiter(500,elem);
-	
+$("abbr.time_spans").timeago();	
 /*
 $('#refresh_button').click(function(){
 	//show loading gif
@@ -111,12 +206,13 @@ $('#refresh_button').click(function(){
 	
 });
 */
-
+/*
 $(document).on('click', '.like_buttons', function (e) {
-	e.preventDefault();
+	//e.preventDefault();
+	
 	var itemname = $(this).parent().attr('id');
 	var id = itemname.substr(10);
-	//alert(id);
+	alert("Spreading... "+id);
 	
 	$.ajax({
 		url: '/index.php/feed/spread_feed/'+id,
@@ -124,13 +220,24 @@ $(document).on('click', '.like_buttons', function (e) {
 		success: function(data){
 			//alert("Successfully Spread!");
 			$(this).hide();
-			var prev_likecount = $(this).siblings(".likecount_spans").children("span").html();
-			$(this).siblings(".likecount_spans").children("span").html(parseInt(prev_likecount)+1);
-			$(this).parent().append('<span class="afterlike_messages">The word has been spread!</span>');
+			var prev_likecount = $(this).siblings(".likecount_spans").children(".blueify").html();
+			$(this).siblings(".likecount_spans").children(".blueify").html(parseInt(prev_likecount)+1);
+			$(this).parent().append('<span class="afterlike_messages">The word has been spread</span>');
+			
+			var prev_spreadcount = parseInt($('#my_spreads_open').children('b').html().substr(1,2))+1;
+			$('#my_spreads_open').children('b').html("("+prev_spreadcount+")");
+			
+			$('#feed_main_div').children('#feed_item_'+id).children(".likecount_spans").children(".blueify").html(parseInt(prev_likecount)+1);
+			$('#feed_main_div').children('#feed_item_'+id).hide();
+			$('#feed_main_div').children('#feed_item_'+id).append('<span class="afterlike_messages">The word has been spread</span>');
+			
+			$('.my_lists').children('#feed_item_'+id).children(".likecount_spans").children(".blueify").html(parseInt(prev_likecount)+1);
+			$('.my_lists').children('#feed_item_'+id).hide();
+			$('.my_lists').children('#feed_item_'+id).append('<span class="afterlike_messages">The word has been spread</span>');
 		}
 	});
 });
-
+*/
 
 function refresh_feed(){
 	//show loading gif
@@ -175,11 +282,12 @@ function refresh_feed(){
 
 function getLocation(){
 	if (navigator.geolocation) {
-		//alert("Geo");
 		navigator.geolocation.getCurrentPosition(showMap, showError);
 	} else {
 		alert("Geolocation is not supported by this browser.");
+	    
 	}
+	
 }
 function showMap(position) {
 	//alert("sds");
@@ -187,8 +295,7 @@ function showMap(position) {
 	$('#input_long_hidden').val(position.coords.longitude);
 	
 	var cityname = getCityName(position.coords.latitude,position.coords.longitude,function(cityname){
-		//alert(cityname);
-		$('#feed_city_information').html('The word around <b>'+cityname+'</b> is...'+'<button onclick="refresh_feed()" id="refresh_button"><i class="fa fa-refresh"></i> Refresh</button>');
+		$('#feed_city_information').html('The word around <b><span id="location">'+cityname+'</span></b> is...'+'<button onclick="refresh_feed()" id="refresh_button"><i class="fa fa-refresh"></i> Refresh</button>');
 	});
 	
 	
@@ -226,7 +333,6 @@ function getCityName(lat, lng, callback) {
 	var city;
     geocoder.geocode({'location': latlng}, function(results, status) {
       if (status == google.maps.GeocoderStatus.OK) {
-		//alert("good");
         if (results[1]) {
          //formatted address
          //alert(results[0].formatted_address)
@@ -257,5 +363,3 @@ function getCityName(lat, lng, callback) {
       }
     });
 }
-
-getLocation();

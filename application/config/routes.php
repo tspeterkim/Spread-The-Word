@@ -41,7 +41,7 @@
 //Default Stuff
 
 //$route['profile/(:num)'] = "profile/display_by_id/$1";
-$route['default_controller'] = "home";
+$route['default_controller'] = "feed";
 $route['404_override'] = '';
 
 
